@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sales and Orders Charts</title>
+  <!-- Include Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="container mt-4">
+  <div class="row">
+    <!-- Chart 1 -->
+    <div class="col-lg-6 mb-4">
+      <canvas id="myChart" style="width:100%; height:400px;"></canvas>
+    </div>
+
+    <!-- Chart 2 -->
+    <div class="col-lg-6 mb-4">
+      <canvas id="orderChart" style="width:100%; height:400px;"></canvas>
+    </div>
+  </div>
+</div>
+
+<script>
+  // First chart - Monthly Sales Report
+  const ctx = document.getElementById('myChart').getContext('2d');
+  const monthlyReportChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+      ],
+      datasets: [{
+        label: 'Sales Report (in ₹)',
+        data: [12000, 19000, 3000, 5000, 2000, 30000, 4500, 10000, 7000, 8000, 15000, 20000],
+        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: 'Monthly Sales Report - 2025'
+        },
+        legend: {
+          display: true,
+          position: 'top'
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: function (value) {
+              return '₹' + value.toLocaleString();
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // Second chart - Orders Overview
+  const orderData = {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    datasets: [
+      {
+        label: 'Total Orders',
+        data: [120, 150, 180, 170, 210, 200, 250, 230, 220, 190, 160, 140],
+        borderColor: 'blue',
+        backgroundColor: 'blue',
+        fill: false,
+        tension: 0.3
+      },
+      {
+        label: 'Confirmed Orders',
+        data: [100, 130, 160, 150, 190, 180, 220, 210, 200, 170, 140, 120],
+        borderColor: 'green',
+        backgroundColor: 'green',
+        fill: false,
+        tension: 0.3
+      },
+      {
+        label: 'Lost Orders',
+        data: [20, 20, 20, 20, 20, 20, 30, 20, 20, 20, 20, 20],
+        borderColor: 'red',
+        backgroundColor: 'red',
+        fill: false,
+        tension: 0.3
+      }
+    ]
+  };
+
+  const orderConfig = {
+    type: 'line',
+    data: orderData,
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: 'Monthly Orders Overview'
+        },
+        legend: {
+          position: 'top'
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Number of Orders'
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Month'
+          }
+        }
+      }
+    }
+  };
+
+  const orderChart = new Chart(
+    document.getElementById('orderChart'),
+    orderConfig
+  );
+</script>
+
+</body>
+</html>
